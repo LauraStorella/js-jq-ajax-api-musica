@@ -69,3 +69,12 @@ header img {
 .cd span.year {
     color: grey;
 }
+
+
+/* Classi per utilizzo <select> */
+.hide {
+    display: none;
+}
+.show {
+    display: block;
+}
