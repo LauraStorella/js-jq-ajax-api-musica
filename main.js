@@ -21,37 +21,16 @@ $(document).ready(function() {
 			method: "GET",
 			success: function (data) {
 				var cds = data.response;
-
+				console.log(cds);
+				
 				// Chiamo funzione per stampa cover album
-				printCds(cds)
-
-				// Step #3 : SELECT - inizio
-				// Creo evento click sulla select
-				$('option').click( function() {
-					// alert('test');
-
-					// Leggo il valore della select
-					var userSelection = $(this).val();
-					console.log(userSelection);
-
-					// Se il valore è diverso da all
-					//  ---> quindi l'utente ha applicato un  filtro
-					if (userSelection != all) {
-						// nascondo tutti i dischi (aggiungo classe .hide)
-						// e visualizzo quelli corrispondenti alla scelta utente (aggiungo classe .show)
-					} else {
-						// visualizzo tutti gli album
-					}
-				});
-				// SELECT - fine
+				printCds(cds)	
 			},
-
 			error: function () {
 				alert('Ooops! Si è verificato un errore.');
 			}
 		}
 	 );
-
 
 
 
@@ -75,7 +54,8 @@ $(document).ready(function() {
 				'poster': singleCd.poster,
 				'title': singleCd.title,
 				'author': singleCd.author,
-				'year': singleCd.year
+				'year': singleCd.year,
+				'genre': (singleCd.genre).toLowerCase(),
 			};
 
 			// Appendo elemento in html (.cds-container)
@@ -83,6 +63,59 @@ $(document).ready(function() {
 			$('.cds-container').append(html);			
 		}	 
 	 }
+
+
+	// Step #3 : BONUS - inizio - 1° Metodo
+	// Intercetto selezione voce dal menu 
+	$('.cds-genre').change( function() {
+		// alert('test');
+
+		// Leggo il valore della select
+		var userSelection = $(this).val();
+		console.log(userSelection);
+
+		$('.cd').each( function() {
+		
+		// Leggo valore data-genre 
+		var musicGenre = $(this).attr('data-genre');
+
+		// Se scelta corrisponde a  'all' (tutti i generi)
+		// oppure corrisponde a una scelta dell'utente (filtro applicato)
+		if (userSelection === 'all' || musicGenre === userSelection ) {
+			// visualizzo tutti i dischi / dischi di un relativo genere
+			$(this).show();
+		} else {
+			// nascondo tutti gli album
+			$(this).hide();
+		}
+		});
+	});
+	// BONUS - fine - 1° Metodo
+
+
+
+	// // Step #3 : BONUS - inizio - 2° Metodo
+	// // Intercetto selezione voce dal menu
+	// $('.cds-genre').change( function() {
+	// 	// alert('test');
+
+	// 	// Leggo il valore della select
+	// 	var userSelection = $(this).val();
+	// 	console.log(userSelection);
+
+	// 	// Se il valore è diverso da 'all' (tutti i generi)
+	// 	//  ---> allora l'utente ha applicato un  filtro
+	// 	if (userSelection != 'all') {
+	// 		// nascondo tutti i dischi 
+	// 		$('.cd').hide();
+	// 		// e visualizzo quelli corrispondenti alla scelta utente 
+	// 		$('.cd[data-genre="' + userSelection + '"]').show();
+	// 	} else {
+	// 		// visualizzo tutti gli album
+	// 		$('.cd').show();
+	// 	}
+	// });
+	// // BONUS - fine . 2° Metodo
 
 
 
